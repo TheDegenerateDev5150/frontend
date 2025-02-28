@@ -29,39 +29,6 @@ trait ABTestSwitches {
 
   Switch(
     ABTests,
-    "ab-ad-block-ask",
-    "Show new ad block ask component in ad slots when we detect ad blocker usage",
-    owners = Seq(Owner.withEmail("commercial.dev@theguardian.com")),
-    safeState = Off,
-    sellByDate = Some(LocalDate.of(2025, 2, 24)),
-    exposeClientSide = true,
-    highImpact = false,
-  )
-
-  Switch(
-    ABTests,
-    "ab-opt-out-frequency-cap",
-    "Test the Opt Out frequency capping feature",
-    owners = Seq(Owner.withEmail("commercial.dev@theguardian.com")),
-    safeState = Off,
-    sellByDate = Some(LocalDate.of(2025, 2, 28)),
-    exposeClientSide = true,
-    highImpact = false,
-  )
-
-  Switch(
-    ABTests,
-    "ab-prebid-keywords",
-    "Test impact of adding keywords to Prebid config",
-    owners = Seq(Owner.withEmail("commercial.dev@theguardian.com")),
-    safeState = Off,
-    sellByDate = Some(LocalDate.of(2025, 2, 28)),
-    exposeClientSide = true,
-    highImpact = false,
-  )
-
-  Switch(
-    ABTests,
     "ab-auxia-sign-in-gate",
     "Experimental use of Auxia to drive the client-side SignIn gate",
     owners = Seq(Owner.withEmail("growth@guardian.co.uk")),
@@ -73,22 +40,11 @@ trait ABTestSwitches {
 
   Switch(
     ABTests,
-    "ab-the-trade-desk",
-    "Enable The Trade Desk prebid bidder",
-    owners = Seq(Owner.withEmail("commercial.dev@theguardian.com")),
-    safeState = Off,
-    sellByDate = Some(LocalDate.of(2025, 2, 28)),
-    exposeClientSide = true,
-    highImpact = false,
-  )
-
-  Switch(
-    ABTests,
     "ab-defer-permutive-load",
     "Test the impact of deferring the Permutive script load",
     owners = Seq(Owner.withEmail("commercial.dev@theguardian.com")),
     safeState = Off,
-    sellByDate = Some(LocalDate.of(2025, 2, 28)),
+    sellByDate = Some(LocalDate.of(2025, 3, 28)),
     exposeClientSide = true,
     highImpact = false,
   )
