@@ -100,7 +100,7 @@ object NavLinks {
   val auBusiness = ukBusiness.copy(children = List(markets, money, projectSyndicate, retail))
 
   /* OPINION */
-  val columnists = NavLink("Columnists", "/index/contributors")
+  val columnists = NavLink("Columnists", "/uk/columnists")
   val auColumnists = NavLink("Columnists", "/au/index/contributors")
   val usColumnists = NavLink("Columnists", "/us/columnists")
   val theGuardianView = NavLink("The Guardian view", "/profile/editorial")
@@ -777,6 +777,8 @@ object NavLinks {
     "profile/editorial",
     "au/index/contributors",
     "index/contributors",
+    "us/columnists",
+    "uk/columnists",
     "commentisfree/series/comment-is-free-weekly",
     "sport/rugby-union",
     "sport/cricket",
