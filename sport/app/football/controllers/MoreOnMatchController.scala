@@ -253,7 +253,7 @@ class MoreOnMatchController(
                 competitionSummary,
                 filtered,
               )
-              Cached(if (theMatch.isLive) 10 else 300)(JsonComponent.fromWritable(model))
+              Cached(if (theMatch.isAboutToStart || theMatch.isLive) 10 else 300)(JsonComponent.fromWritable(model))
             }
         }
       maybeResponse.getOrElse(Future.successful(Cached(30) { JsonNotFound() }))
