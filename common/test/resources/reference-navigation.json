@@ -388,7 +388,7 @@
 				},
 				{
 					"title": "Columnists",
-					"url": "/index/contributors",
+					"url": "/uk/columnists",
 					"children": [],
 					"classList": []
 				},
@@ -2765,7 +2765,7 @@
 				},
 				{
 					"title": "Columnists",
-					"url": "/index/contributors",
+					"url": "/uk/columnists",
 					"children": [],
 					"classList": []
 				},
@@ -3313,6 +3313,8 @@
 		"profile/editorial",
 		"au/index/contributors",
 		"index/contributors",
+		"us/columnists",
+		"uk/columnists",
 		"commentisfree/series/comment-is-free-weekly",
 		"sport/rugby-union",
 		"sport/cricket",
@@ -3750,7 +3752,7 @@
 				},
 				{
 					"title": "Columnists",
-					"url": "/index/contributors",
+					"url": "/uk/columnists",
 					"children": [],
 					"classList": []
 				},
