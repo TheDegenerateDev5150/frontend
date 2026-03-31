@@ -95,7 +95,7 @@ class MatchController(
           val tier = FootballSummaryPagePicker.getTier()
 
           val cacheTime =
-            if (theMatch.isAboutToStart || theMatch.isLive) CacheTime(10) else CacheTime.FootballMatch
+            if (theMatch.isAboutToStart || theMatch.isLive) CacheTime(10) else CacheTime(300)
 
           page.flatMap { page =>
             val matchStats = MatchStats.statsFromFootballMatch(theMatch, page.lineUp, theMatch.matchStatus)
