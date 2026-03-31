@@ -103,6 +103,12 @@ object Dependencies {
   val epoch = "org.webjars.npm" % "epoch-charting" % "0.8.4"
   val d3 = "org.webjars.npm" % "d3" % "7.9.0"
 
+  val nettyVersion = "4.1.132.Final"
+  val netty = Seq(
+    "io.netty" % "netty-codec-http" % nettyVersion,
+    "io.netty" % "netty-codec-http2" % nettyVersion,
+  )
+
   /*
     The versions are currently set as they are because of:
     https://github.com/orgs/playframework/discussions/11222
