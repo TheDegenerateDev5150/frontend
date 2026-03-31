@@ -94,6 +94,9 @@ class MatchController(
           val page: Future[MatchPage] = lineup.map(MatchPage(theMatch, _))
           val tier = FootballSummaryPagePicker.getTier()
 
+          val cacheTime =
+            if (theMatch.isAboutToStart || theMatch.isLive) CacheTime(10) else CacheTime.FootballMatch
+
           page.flatMap { page =>
             val matchStats = MatchStats.statsFromFootballMatch(theMatch, page.lineUp, theMatch.matchStatus)
 
@@ -121,9 +124,11 @@ class MatchController(
                   group = group,
                   competitionName = competitionSummary.fullName,
                 )
+
                 remoteRenderer.getFootballMatchSummaryPage(
                   wsClient,
                   DotcomRenderingFootballMatchSummaryDataModel.toJson(model),
+                  cacheTime,
                 )
 
               case AppsFormat if tier == RemoteRender =>
@@ -137,6 +142,7 @@ class MatchController(
                 remoteRenderer.getAppsFootballMatchSummaryPage(
                   wsClient,
                   DotcomRenderingFootballMatchSummaryDataModel.toJson(model),
+                  cacheTime,
                 )
 
               case _ =>
