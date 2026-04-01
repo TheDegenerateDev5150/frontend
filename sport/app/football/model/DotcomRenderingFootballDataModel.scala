@@ -52,6 +52,16 @@ trait DotcomRenderingFootballDataModel {
   def pageId: String
 }
 
+sealed trait DCARUrlHelper {
+  def getPageUrl(path: String)(implicit request: RequestHeader): String = {
+    if (Environment.app == "preview") s"https://${request.host}$path" else LinkTo(path)
+  }
+
+  def getAjaxHost(implicit request: RequestHeader): String = {
+    if (Environment.app == "preview") s"https://${request.host}" else Configuration.ajax.url
+  }
+}
+
 object DotcomRenderingFootballDataModel {
   def getConfig(page: StandalonePage)(implicit
       request: RequestHeader,
@@ -235,31 +245,20 @@ case class DotcomRenderingFootballHeaderDataModel(
     infoURL: String,
 )
 
-object DotcomRenderingFootballHeaderDataModel {
+object DotcomRenderingFootballHeaderDataModel extends DCARUrlHelper {
   import football.model.DotcomRenderingFootballDataModelImplicits._
 
   def apply(theMatch: FootballMatch, competitionSummary: CompetitionSummary, related: Seq[ContentType])(implicit
       request: RequestHeader,
   ): DotcomRenderingFootballHeaderDataModel = {
     val (maybeMatchReport, maybeMinByMin, _, matchInfo) = MatchMetadata.fetchRelatedMatchContent(theMatch, related)
-
-    if (Environment.app == "preview") {
-      DotcomRenderingFootballHeaderDataModel(
-        footballMatch = theMatch,
-        competitionName = competitionSummary.fullName,
-        liveURL = maybeMinByMin.map(x => s"https://${request.host}${x.url}"),
-        reportURL = maybeMatchReport.map(x => s"https://${request.host}${x.url}"),
-        infoURL = s"https://${request.host}${matchInfo.url}",
-      )
-    } else {
-      DotcomRenderingFootballHeaderDataModel(
-        footballMatch = theMatch,
-        competitionName = competitionSummary.fullName,
-        liveURL = maybeMinByMin.map(x => LinkTo(x.url)),
-        reportURL = maybeMatchReport.map(x => LinkTo(x.url)),
-        infoURL = LinkTo(matchInfo.url),
-      )
-    }
+    DotcomRenderingFootballHeaderDataModel(
+      footballMatch = theMatch,
+      competitionName = competitionSummary.fullName,
+      liveURL = maybeMinByMin.map(x => getPageUrl(x.url)),
+      reportURL = maybeMatchReport.map(x => getPageUrl(x.url)),
+      infoURL = getPageUrl(matchInfo.url),
+    )
   }
 
   implicit def DotcomRenderingFootballHeaderDataModelWrites: Writes[DotcomRenderingFootballHeaderDataModel] =
@@ -380,7 +379,7 @@ case class DotcomRenderingFootballMatchSummaryDataModel(
     pageId: String,
 ) extends DotcomRenderingFootballDataModel
 
-object DotcomRenderingFootballMatchSummaryDataModel {
+object DotcomRenderingFootballMatchSummaryDataModel extends DCARUrlHelper {
   def apply(
       page: MatchPage,
       matchStats: MatchStats,
@@ -423,8 +422,7 @@ object DotcomRenderingFootballMatchSummaryDataModel {
   private def matchHeaderUrl(theMatch: FootballMatch)(implicit request: RequestHeader): String = {
     val (homeId, awayId) = (theMatch.homeTeam.id, theMatch.awayTeam.id)
     val localDate = new JodaLocalDate(theMatch.date.getYear, theMatch.date.getMonthValue, theMatch.date.getDayOfMonth)
-    val host = if (Environment.app == "preview") s"https://${request.host}" else Configuration.ajax.url
-    getMatchUrl(host, localDate, homeId, awayId, MatchHeaderEndpoint)
+    getMatchUrl(getAjaxHost, localDate, homeId, awayId, MatchHeaderEndpoint)
   }
 
   import football.model.DotcomRenderingFootballDataModelImplicits._

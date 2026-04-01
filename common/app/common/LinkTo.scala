@@ -32,21 +32,6 @@ trait LinkTo extends GuLogging {
 
   case class ProcessedUrl(url: String, shouldNoFollow: Boolean = false)
 
-  def getAbsoluteUrlOnRequestDomain(url: String, prefix: Option[String] = None)(implicit
-      request: RequestHeader,
-  ): String = {
-    val processedUrl = processUrl(url, Edition(request))
-    val resolvedHost = Option(host).filter(_.nonEmpty) match {
-      case Some(value) => value
-      case None        => s"https://${request.host}/"
-    }
-
-    prefix match {
-      case Some(p) => s"$resolvedHost$p${processedUrl.url}"
-      case None    => s"$resolvedHost${processedUrl.url}"
-    }
-  }
-
   def processUrl(url: String, edition: Edition): ProcessedUrl =
     url match {
       case `url` if url.startsWith("//") => ProcessedUrl(url)
