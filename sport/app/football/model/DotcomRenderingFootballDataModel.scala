@@ -244,13 +244,12 @@ object DotcomRenderingFootballHeaderDataModel {
     val (maybeMatchReport, maybeMinByMin, _, matchInfo) = MatchMetadata.fetchRelatedMatchContent(theMatch, related)
 
     if (Environment.app == "preview") {
-      val prefix = Some("proxy/preview")
       DotcomRenderingFootballHeaderDataModel(
         footballMatch = theMatch,
         competitionName = competitionSummary.fullName,
-        liveURL = maybeMinByMin.map(x => LinkTo.getFullPath(x.url, prefix)),
-        reportURL = maybeMatchReport.map(x => LinkTo.getFullPath(x.url, prefix)),
-        infoURL = LinkTo.getFullPath(matchInfo.url, prefix),
+        liveURL = maybeMinByMin.map(x => s"https://${request.host}${x.url}"),
+        reportURL = maybeMatchReport.map(x => s"https://${request.host}${x.url}"),
+        infoURL = s"https://${request.host}${matchInfo.url}",
       )
     } else {
       DotcomRenderingFootballHeaderDataModel(
@@ -401,7 +400,7 @@ object DotcomRenderingFootballMatchSummaryDataModel {
       group = group,
       competitionName = competitionName,
       matchUrl = matchUrl(matchInfo, page),
-      matchHeaderUrl = matchHeaderUrl(matchInfo, page),
+      matchHeaderUrl = matchHeaderUrl(matchInfo),
       nav = nav,
       editionId = edition.id,
       guardianBaseURL = Configuration.site.host,
@@ -421,11 +420,11 @@ object DotcomRenderingFootballMatchSummaryDataModel {
     getMatchNavUrl(Configuration.ajax.url, localDate, homeId, awayId, page.metadata.id)
   }
 
-  private def matchHeaderUrl(theMatch: FootballMatch, page: MatchPage) = {
+  private def matchHeaderUrl(theMatch: FootballMatch)(implicit request: RequestHeader): String = {
     val (homeId, awayId) = (theMatch.homeTeam.id, theMatch.awayTeam.id)
     val localDate = new JodaLocalDate(theMatch.date.getYear, theMatch.date.getMonthValue, theMatch.date.getDayOfMonth)
-
-    getMatchUrl(Configuration.ajax.url, localDate, homeId, awayId, MatchHeaderEndpoint)
+    val host = if (Environment.app == "preview") s"https://${request.host}" else Configuration.ajax.url
+    getMatchUrl(host, localDate, homeId, awayId, MatchHeaderEndpoint)
   }
 
   import football.model.DotcomRenderingFootballDataModelImplicits._

@@ -13,7 +13,7 @@ import scala.jdk.CollectionConverters._
  */
 trait LinkTo extends GuLogging {
 
-  lazy val host = "" // Configuration.site.host
+  lazy val host = Configuration.site.host
 
   private val GuardianUrl = "^(http[s]?://www.theguardian.com)?(/.*)?$".r
   private val RssPath = "^(/.+)?(/rss)".r
@@ -32,7 +32,9 @@ trait LinkTo extends GuLogging {
 
   case class ProcessedUrl(url: String, shouldNoFollow: Boolean = false)
 
-  def getFullPath(url: String, prefix: Option[String] = None)(implicit request: RequestHeader): String = {
+  def getAbsoluteUrlOnRequestDomain(url: String, prefix: Option[String] = None)(implicit
+      request: RequestHeader,
+  ): String = {
     val processedUrl = processUrl(url, Edition(request))
     val resolvedHost = Option(host).filter(_.nonEmpty) match {
       case Some(value) => value
