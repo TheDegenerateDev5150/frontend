@@ -1,6 +1,6 @@
 package football.model
 
-import common.{CanonicalLink, Edition, LinkTo}
+import common.{CanonicalLink, Edition, Environment, LinkTo}
 import conf.Configuration
 import experiments.ActiveExperiments
 import football.controllers.{CompetitionFilter, FootballPage, MatchMetadata, MatchPage}
@@ -242,13 +242,25 @@ object DotcomRenderingFootballHeaderDataModel {
       request: RequestHeader,
   ): DotcomRenderingFootballHeaderDataModel = {
     val (maybeMatchReport, maybeMinByMin, _, matchInfo) = MatchMetadata.fetchRelatedMatchContent(theMatch, related)
-    DotcomRenderingFootballHeaderDataModel(
-      footballMatch = theMatch,
-      competitionName = competitionSummary.fullName,
-      liveURL = maybeMinByMin.map(x => LinkTo(x.url)),
-      reportURL = maybeMatchReport.map(x => LinkTo(x.url)),
-      infoURL = LinkTo(matchInfo.url),
-    )
+
+    if (Environment.app == "preview") {
+      val prefix = Some("proxy/preview")
+      DotcomRenderingFootballHeaderDataModel(
+        footballMatch = theMatch,
+        competitionName = competitionSummary.fullName,
+        liveURL = maybeMinByMin.map(x => LinkTo.getFullPath(x.url, prefix)),
+        reportURL = maybeMatchReport.map(x => LinkTo.getFullPath(x.url, prefix)),
+        infoURL = LinkTo.getFullPath(matchInfo.url, prefix),
+      )
+    } else {
+      DotcomRenderingFootballHeaderDataModel(
+        footballMatch = theMatch,
+        competitionName = competitionSummary.fullName,
+        liveURL = maybeMinByMin.map(x => LinkTo(x.url)),
+        reportURL = maybeMatchReport.map(x => LinkTo(x.url)),
+        infoURL = LinkTo(matchInfo.url),
+      )
+    }
   }
 
   implicit def DotcomRenderingFootballHeaderDataModelWrites: Writes[DotcomRenderingFootballHeaderDataModel] =
