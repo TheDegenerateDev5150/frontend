@@ -50,6 +50,15 @@ After doing the above...
 
 As of writing this the email for contacting PA customer.services@pressassociation.com
 
+### Gotchas
+
+#### Why is the spider diagram not rendering?
+Typically, PA will populate knockout fixtures during the competition. This means that the spider diagram won't render until PA has populated the fixtures.
+If this is the case, it is necessary to request that PA supply placeholder teams, sometimes referred to in code as "ghost data" (eg `group A winner v group B runner up` etc)
+for the knockout fixtures to get the spider diagram rendering before the tournament starts. This is something that can be requested from PA customer services.
+NB - Once the placeholder teams are confirmed, the original placeholder will be removed, and a new fixture ID including the two confirmed teams will be created.
+This is OK as the spider diagram currently relies on date, rather than fixture ID, to place the matches in the right place on the diagram.
+
 ## Other sports
 
 [Football isn't the only sport](https://elt.oup.com/elt/students/englishfile/dyslexicfriendlytexts/a002209_english_file_3e_beginner_reading_text_file_7a.pdf?cc=us&selLanguage=en)
