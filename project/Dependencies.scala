@@ -4,7 +4,7 @@ import sbt._
 
 object Dependencies {
   val identityLibVersion = "4.31"
-  val awsVersion = "2.41.12"
+  val awsVersion = "2.42.19"
   val capiVersion = "41.1.1"
   val faciaVersion = "29.0.0"
   val dispatchVersion = "0.13.1"
@@ -23,7 +23,7 @@ object Dependencies {
   val awsSqs = "software.amazon.awssdk" % "sqs" % awsVersion
   val awsSsm = "software.amazon.awssdk" % "ssm" % awsVersion
   val awsElasticloadbalancing = "software.amazon.awssdk" % "elasticloadbalancing" % awsVersion
-  val closureCompiler = "com.google.javascript" % "closure-compiler" % "v20260315"
+  val closureCompiler = "com.google.javascript" % "closure-compiler" % "v20260321"
   val commonsHttpClient = "commons-httpclient" % "commons-httpclient" % "3.1"
   val commonsLang = "commons-lang" % "commons-lang" % "2.6"
   val commonsIo = "commons-io" % "commons-io" % "2.21.0"
@@ -102,6 +102,12 @@ object Dependencies {
   val react = "org.webjars" % "react" % "16.5.2"
   val epoch = "org.webjars.npm" % "epoch-charting" % "0.8.4"
   val d3 = "org.webjars.npm" % "d3" % "7.9.0"
+
+  val nettyVersion = "4.1.132.Final"
+  val netty = Seq(
+    "io.netty" % "netty-codec-http" % nettyVersion,
+    "io.netty" % "netty-codec-http2" % nettyVersion,
+  )
 
   /*
     The versions are currently set as they are because of:
