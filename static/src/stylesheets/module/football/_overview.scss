@@ -488,10 +488,16 @@
 .football-round {
 	@include fs-textSans(2);
 	float: left;
+	width: calc(100% / 9); // There are 9 columns in a Round of 32 spider
 }
 .football-round--active {
 	.football-match__team {
 		font-weight: bold;
+	}
+}
+.football-round--16-matches {
+	.football-match {
+		height: 12.5%;
 	}
 }
 .football-round--8-matches {
@@ -536,7 +542,7 @@
 .football-round__matches {
 	box-sizing: border-box;
 	padding-right: $gs-gutter * 0.5;
-	height: 530px;
+	height: 820px;
 }
 
 .football-round--playoff {
