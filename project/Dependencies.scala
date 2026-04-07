@@ -63,7 +63,7 @@ object Dependencies {
   val scalaCheck = "org.scalacheck" %% "scalacheck" % "1.19.0" % Test
   val scalaCollectionPlus = "com.madgag" %% "scala-collection-plus" % "1.0.0"
   val nScalaTime = "com.github.nscala-time" %% "nscala-time" % "2.34.0"
-  val scalaTest = "org.scalatest" %% "scalatest" % "3.2.19" % Test
+  val scalaTest = "org.scalatest" %% "scalatest" % "3.2.20" % Test
   val scalaTestPlus = "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.2" % Test
   val scalaTestPlusMockito = "org.scalatestplus" %% "mockito-5-18" % "3.2.19.0" % Test
   val mockito = "org.mockito" % "mockito-core" % "5.23.0" % Test // ensure this matches scalatest + mockito
