@@ -157,8 +157,6 @@ trait Football {
     )
   }
 
-  // "700" is for world-cup 2014 - remove that entry when it is done (leave the impls for other tournaments)
-
   val roundLinks = Map[String, Round => Option[String]]()
   def groupTag(competitionId: String, round: Round): Option[String] = roundLinks.get(competitionId).flatMap(_(round))
 }

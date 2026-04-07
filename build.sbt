@@ -67,7 +67,8 @@ val common = library("common")
       pekkoSerializationJackson,
       pekkoActorTyped,
       supportInternationalisation
-    ) ++ jackson,
+    ) ++ jackson ++ netty,
+
   )
 
 val commonWithTests = withTests(common)
