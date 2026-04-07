@@ -149,7 +149,7 @@ object CompetitionsProvider {
       "World Cup 2026",
       "Internationals",
       showInTeamsList = true,
-      tableDividers = List(2),
+      tableDividers = List(2, 3),
       startDate = Some(LocalDate.of(2025, 12, 2)),
     ),
     Competition(
