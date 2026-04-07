@@ -4,7 +4,7 @@ import com.github.nscala_time.time.Imports.DateTime
 import com.gu.contentapi.client.model.v1.{Block => APIBlock, BlockElement => ClientBlockElement, Blocks => APIBlocks}
 import com.gu.contentapi.client.utils.format.{ImmersiveDisplay, LiveBlogDesign}
 import com.gu.contentapi.client.utils.{AdvertisementFeature, DesignType}
-import common.Edition
+import common.{Edition, Environment, LinkTo}
 import conf.switches.Switches
 import conf.{Configuration, Static}
 import model.content.Atom
@@ -54,8 +54,20 @@ case object MatchHeaderEndpoint extends MatchEndpoint { val urlSegment = "match-
 case object MatchStatsEndpoint extends MatchEndpoint { val urlSegment = "match-stats" }
 case object MatchStatsSummaryEndpoint extends MatchEndpoint { val urlSegment = "match-stats-summary" }
 
-object DotcomRenderingUtils {
-  def makeMatchData(articlePage: ContentPage, pageType: PageType): Option[DotcomRenderingMatchData] = {
+trait DCARUrlHelper {
+  def getPageUrl(path: String)(implicit request: RequestHeader): String = {
+    if (Environment.app == "preview") s"https://${request.host}$path" else LinkTo(path)
+  }
+
+  def getAjaxHost(implicit request: RequestHeader): String = {
+    if (Environment.app == "preview") s"https://${request.host}" else Configuration.ajax.url
+  }
+}
+
+object DotcomRenderingUtils extends DCARUrlHelper {
+  def makeMatchData(articlePage: ContentPage, pageType: PageType)(implicit
+      request: RequestHeader,
+  ): Option[DotcomRenderingMatchData] = {
     makeFootballMatch(articlePage, pageType).orElse(makeCricketMatch(articlePage))
   }
 
@@ -96,7 +108,9 @@ object DotcomRenderingUtils {
     s"$host/football/api/${endpoint.urlSegment}/$datePath/$team1/$team2.json"
   }
 
-  def makeFootballMatch(articlePage: ContentPage, pageType: PageType): Option[DotcomRenderingMatchData] = {
+  def makeFootballMatch(articlePage: ContentPage, pageType: PageType)(implicit
+      request: RequestHeader,
+  ): Option[DotcomRenderingMatchData] = {
 
     def extraction1(references: JsValue): Option[IndexedSeq[JsValue]] = {
       val sequence = references match {
@@ -138,9 +152,9 @@ object DotcomRenderingUtils {
           val statsUrlSegment: MatchEndpoint =
             if (pageType.isLiveblog) MatchStatsSummaryEndpoint else MatchStatsEndpoint
           val localDate = articlePage.item.trail.webPublicationDate.toLocalDate
-          val navUrl = getMatchNavUrl(Configuration.ajax.url, localDate, e1._2, e2._2, articlePage.metadata.id)
-          val headerUrl = getMatchUrl(Configuration.ajax.url, localDate, e1._2, e2._2, MatchHeaderEndpoint)
-          val statsUrl = getMatchUrl(Configuration.ajax.url, localDate, e1._2, e2._2, statsUrlSegment)
+          val navUrl = getMatchNavUrl(getAjaxHost, localDate, e1._2, e2._2, articlePage.metadata.id)
+          val headerUrl = getMatchUrl(getAjaxHost, localDate, e1._2, e2._2, MatchHeaderEndpoint)
+          val statsUrl = getMatchUrl(getAjaxHost, localDate, e1._2, e2._2, statsUrlSegment)
           Some(
             DotcomRenderingMatchData(
               matchUrl = navUrl,

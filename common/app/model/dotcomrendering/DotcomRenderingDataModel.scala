@@ -634,7 +634,7 @@ object DotcomRenderingDataModel {
       modifiedFormat.design == InteractiveDesign && content.trail.webPublicationDate
         .isBefore(Chronos.javaTimeLocalDateTimeToJodaDateTime(InteractiveSwitchOver.date))
 
-    val matchData = makeMatchData(page, pageType)
+    val matchData = makeMatchData(page, pageType)(request)
 
     def addAffiliateLinksDisclaimerDCR(shouldAddAffiliateLinks: Boolean, shouldAddDisclaimer: Boolean) = {
       if (shouldAddAffiliateLinks && shouldAddDisclaimer) {
