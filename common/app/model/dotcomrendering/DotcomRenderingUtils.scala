@@ -55,16 +55,12 @@ case object MatchStatsEndpoint extends MatchEndpoint { val urlSegment = "match-s
 case object MatchStatsSummaryEndpoint extends MatchEndpoint { val urlSegment = "match-stats-summary" }
 
 trait DCARUrlHelper {
-  def getPreviewHost = {
-    if (Environment.stage == "PROD") "https://viewer.gutools.co.uk/proxy/preview"
-    else s"https://viewer.code.dev-gutools.co.uk/proxy/preview"
-  }
   def getPageUrl(path: String)(implicit request: RequestHeader): String = {
-    if (Environment.app == "preview") s"$getPreviewHost$path" else LinkTo(path)
+    if (Environment.app == "preview") s"${Configuration.site.viewerProxyBaseUrl}$path" else LinkTo(path)
   }
 
   def getAjaxHost: String = {
-    if (Environment.app == "preview") s"$getPreviewHost" else Configuration.ajax.url
+    if (Environment.app == "preview") s"${Configuration.site.viewerProxyBaseUrl}" else Configuration.ajax.url
   }
 }
 
