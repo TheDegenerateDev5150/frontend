@@ -63,15 +63,13 @@ trait DCARUrlHelper {
     if (Environment.app == "preview") s"$getPreviewHost$path" else LinkTo(path)
   }
 
-  def getAjaxHost(implicit request: RequestHeader): String = {
+  def getAjaxHost: String = {
     if (Environment.app == "preview") s"$getPreviewHost" else Configuration.ajax.url
   }
 }
 
 object DotcomRenderingUtils extends DCARUrlHelper {
-  def makeMatchData(articlePage: ContentPage, pageType: PageType)(implicit
-      request: RequestHeader,
-  ): Option[DotcomRenderingMatchData] = {
+  def makeMatchData(articlePage: ContentPage, pageType: PageType): Option[DotcomRenderingMatchData] = {
     makeFootballMatch(articlePage, pageType).orElse(makeCricketMatch(articlePage))
   }
 
@@ -112,9 +110,7 @@ object DotcomRenderingUtils extends DCARUrlHelper {
     s"$host/football/api/${endpoint.urlSegment}/$datePath/$team1/$team2.json"
   }
 
-  def makeFootballMatch(articlePage: ContentPage, pageType: PageType)(implicit
-      request: RequestHeader,
-  ): Option[DotcomRenderingMatchData] = {
+  def makeFootballMatch(articlePage: ContentPage, pageType: PageType): Option[DotcomRenderingMatchData] = {
 
     def extraction1(references: JsValue): Option[IndexedSeq[JsValue]] = {
       val sequence = references match {

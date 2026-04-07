@@ -409,7 +409,7 @@ object DotcomRenderingFootballMatchSummaryDataModel extends DCARUrlHelper {
     getMatchNavUrl(Configuration.ajax.url, localDate, homeId, awayId, page.metadata.id)
   }
 
-  private def matchHeaderUrl(theMatch: FootballMatch)(implicit request: RequestHeader): String = {
+  private def matchHeaderUrl(theMatch: FootballMatch): String = {
     val (homeId, awayId) = (theMatch.homeTeam.id, theMatch.awayTeam.id)
     val localDate = new JodaLocalDate(theMatch.date.getYear, theMatch.date.getMonthValue, theMatch.date.getDayOfMonth)
     getMatchUrl(getAjaxHost, localDate, homeId, awayId, MatchHeaderEndpoint)
