@@ -46,6 +46,13 @@ trait Football {
 
     def isOn(date: LocalDate): Boolean = m.date.toLocalDate == date
 
+    def isAboutToStart: Boolean = {
+      val now = ZonedDateTime.now()
+      val upperBound = now.plusMinutes(5)
+
+      m.date.isAfter(now) && m.date.isBefore(upperBound)
+    }
+
     // results and fixtures do not actually have a status field in the API
     lazy val matchStatus = m match {
       case f: Fixture   => "Fixture"
