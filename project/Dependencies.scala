@@ -63,7 +63,7 @@ object Dependencies {
   val scalaCheck = "org.scalacheck" %% "scalacheck" % "1.19.0" % Test
   val scalaCollectionPlus = "com.madgag" %% "scala-collection-plus" % "1.0.0"
   val nScalaTime = "com.github.nscala-time" %% "nscala-time" % "2.34.0"
-  val scalaTest = "org.scalatest" %% "scalatest" % "3.2.19" % Test
+  val scalaTest = "org.scalatest" %% "scalatest" % "3.2.20" % Test
   val scalaTestPlus = "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.2" % Test
   val scalaTestPlusMockito = "org.scalatestplus" %% "mockito-5-18" % "3.2.19.0" % Test
   val mockito = "org.mockito" % "mockito-core" % "5.23.0" % Test // ensure this matches scalatest + mockito
@@ -74,7 +74,7 @@ object Dependencies {
   val jerseyCore = "com.sun.jersey" % "jersey-core" % jerseyVersion
   val jerseyClient = "com.sun.jersey" % "jersey-client" % jerseyVersion
   val w3cSac = "org.w3c.css" % "sac" % "1.3"
-  val libPhoneNumber = "com.googlecode.libphonenumber" % "libphonenumber" % "9.0.26"
+  val libPhoneNumber = "com.googlecode.libphonenumber" % "libphonenumber" % "9.0.27"
   val pekkoVersion = "1.4.0"
   val pekkoActor = "org.apache.pekko" %% "pekko-actor" % pekkoVersion
   val pekkoStream = "org.apache.pekko" %% "pekko-stream" % pekkoVersion
@@ -87,7 +87,7 @@ object Dependencies {
 
   val targetingClient = "com.gu.targeting-client" %% "client-play-json-v30" % "1.2.0"
   val scanamo = "org.scanamo" %% "scanamo" % "2.0.0"
-  val enumeratumPlayJson = "com.beachape" %% "enumeratum-play-json" % "1.9.6"
+  val enumeratumPlayJson = "com.beachape" %% "enumeratum-play-json" % "1.9.7"
   val commercialShared = "com.gu" %% "commercial-shared" % "6.2.5"
   val playJson = "org.playframework" %% "play-json" % playJsonVersion
   val playJsonJoda = "org.playframework" %% "play-json-joda" % playJsonVersion
