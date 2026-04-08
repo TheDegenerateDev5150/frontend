@@ -30,19 +30,19 @@ trait Competitions extends implicits.Football {
 
   def competitionsWithId(compId: String): Option[Competition] = competitions.find(_.id == compId)
 
-  lazy val competitionsWithTodaysMatchesAndFutureFixtures = Competitions(
+  def competitionsWithTodaysMatchesAndFutureFixtures = Competitions(
     competitions
       .map(c => c.copy(matches = c.matches.filter(m => m.isFixture || m.isOn(LocalDate.now()))))
       .filter(_.hasMatches),
   )
 
-  lazy val competitionsWithTodaysMatchesAndPastResults = Competitions(
+  def competitionsWithTodaysMatchesAndPastResults = Competitions(
     competitions
       .map(c => c.copy(matches = c.matches.filter(m => m.isResult || m.isOn(LocalDate.now()))))
       .filter(_.hasMatches),
   )
 
-  lazy val withTodaysMatches = Competitions(
+  def withTodaysMatches = Competitions(
     competitions.map(c => c.copy(matches = c.matches.filter(_.isOn(LocalDate.now())))).filter(_.hasMatches),
   )
 
