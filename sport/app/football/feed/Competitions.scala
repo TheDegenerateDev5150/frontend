@@ -351,8 +351,8 @@ object CompetitionsProvider {
     Competition(
       "516",
       "/football/europa-conference-league",
-      "Europa Conference League",
-      "Europa Conference League",
+      "Conference League",
+      "Conference League",
       "European",
       showInTeamsList = true,
       tableDividers = List(2),
