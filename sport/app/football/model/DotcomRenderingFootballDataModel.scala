@@ -6,7 +6,7 @@ import experiments.ActiveExperiments
 import football.controllers.{CompetitionFilter, FootballPage, MatchMetadata, MatchPage}
 import model.content.InteractiveAtom
 import model.dotcomrendering.DotcomRenderingUtils.{assetURL, getMatchNavUrl, getMatchUrl, withoutDeepNull, withoutNull}
-import model.dotcomrendering.{Config, MatchHeaderEndpoint, PageFooter, PageType}
+import model.dotcomrendering.{Config, DCARUrlHelper, MatchHeaderEndpoint, PageFooter, PageType}
 import model.{ApplicationContext, Competition, CompetitionSummary, ContentType, Group, StandalonePage, Table, TeamUrl}
 import navigation.{FooterLinks, Nav}
 import pa.{
@@ -50,16 +50,6 @@ trait DotcomRenderingFootballDataModel {
   def contributionsServiceUrl: String
   def canonicalUrl: String
   def pageId: String
-}
-
-sealed trait DCARUrlHelper {
-  def getPageUrl(path: String)(implicit request: RequestHeader): String = {
-    if (Environment.app == "preview") s"https://${request.host}$path" else LinkTo(path)
-  }
-
-  def getAjaxHost(implicit request: RequestHeader): String = {
-    if (Environment.app == "preview") s"https://${request.host}" else Configuration.ajax.url
-  }
 }
 
 object DotcomRenderingFootballDataModel {
@@ -419,7 +409,7 @@ object DotcomRenderingFootballMatchSummaryDataModel extends DCARUrlHelper {
     getMatchNavUrl(Configuration.ajax.url, localDate, homeId, awayId, page.metadata.id)
   }
 
-  private def matchHeaderUrl(theMatch: FootballMatch)(implicit request: RequestHeader): String = {
+  private def matchHeaderUrl(theMatch: FootballMatch): String = {
     val (homeId, awayId) = (theMatch.homeTeam.id, theMatch.awayTeam.id)
     val localDate = new JodaLocalDate(theMatch.date.getYear, theMatch.date.getMonthValue, theMatch.date.getDayOfMonth)
     getMatchUrl(getAjaxHost, localDate, homeId, awayId, MatchHeaderEndpoint)
