@@ -80,7 +80,7 @@ class NewsletterService(newsletterSignupAgent: NewsletterSignupAgent) {
       response.group,
       response.mailSuccessDescription.getOrElse("You are subscribed"),
       response.regionFocus,
-      illustrationCard = Option.empty[String],
+      response.illustrationCard,
     )
   }
 
