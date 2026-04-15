@@ -94,8 +94,8 @@ class EmailFormService(wsClient: WSClient, emailEmbedAgent: NewsletterSignupAgen
           "set-consents" -> form.marketing.filter(_ == true).map(_ => List("similar_guardian_products")),
           "unset-consents" -> form.marketing.filter(_ == false).map(_ => List("similar_guardian_products")),
           "browser-id" -> form.browserId,
-          "registrationLocation" -> registrationLocation,
-          "registrationLocationState" -> registrationLocationState,
+          "registration-location" -> registrationLocation,
+          "registration-location-state" -> registrationLocationState,
         )
         .fields,
     )
