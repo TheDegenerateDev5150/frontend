@@ -62,14 +62,16 @@ class EmailFormService(wsClient: WSClient, emailEmbedAgent: NewsletterSignupAgen
     extends LazyLogging
     with RemoteAddress {
 
-  private def getCountryAndRegion(
-      countryCode: String,
-  )(implicit request: Request[AnyContent]): (String, Option[String]) = {
+  private def getCountryAndRegion(implicit request: Request[AnyContent]): (String, Option[String]) = {
+    val countryCode = request.headers
+      .get("X-GU-GeoLocation")
+      .map(_.replace("country:", ""))
+      .getOrElse("row")
     val registrationLocation: String = CountryGroup.byFastlyCountryCode(countryCode).map(_.name).getOrElse("Other")
     val registrationLocationState: Option[String] =
       for {
-        countryCode <- Option(countryCode).filter(Set("US", "AU").contains)
-        country <- CountryGroup.countryByCode(countryCode)
+        code <- Option(countryCode).filter(Set("US", "AU").contains)
+        country <- CountryGroup.countryByCode(code)
         stateCode <- request.headers.get("X-GU-GeoIP-Region")
         stateName <- country.statesByCode.get(stateCode)
       } yield stateName
@@ -78,13 +80,7 @@ class EmailFormService(wsClient: WSClient, emailEmbedAgent: NewsletterSignupAgen
 
   def submit(form: EmailForm)(implicit request: Request[AnyContent]): Future[WSResponse] = {
     val consentMailerUrl = serviceUrl(form, emailEmbedAgent)
-    val countryCode = request.headers.get("X-GU-GeoLocation") match {
-      case Some(country) =>
-        country.replace("country:", "")
-      case None => "row"
-    }
-
-    val (registrationLocation, registrationLocationState) = getCountryAndRegion(countryCode)
+    val (registrationLocation, registrationLocationState) = getCountryAndRegion
 
     val consentMailerPayload = JsObject(
       Json
@@ -113,8 +109,7 @@ class EmailFormService(wsClient: WSClient, emailEmbedAgent: NewsletterSignupAgen
   }
 
   def submitWithMany(form: EmailFormManyNewsletters)(implicit request: Request[AnyContent]): Future[WSResponse] = {
-    val countryCode = request.headers.get("X-GU-GeoLocation").getOrElse("country:row").replace("country:", "")
-    val (registrationLocation, registrationLocationState) = getCountryAndRegion(countryCode)
+    val (registrationLocation, registrationLocationState) = getCountryAndRegion
     val consentMailerPayload = JsObject(
       Json
         .obj(
@@ -124,8 +119,8 @@ class EmailFormService(wsClient: WSClient, emailEmbedAgent: NewsletterSignupAgen
           "ref" -> form.ref,
           "set-consents" -> form.marketing.filter(_ == true).map(_ => List("similar_guardian_products")),
           "unset-consents" -> form.marketing.filter(_ == false).map(_ => List("similar_guardian_products")),
-          "registrationLocation" -> registrationLocation,
-          "registrationLocationState" -> registrationLocationState,
+          "registration-location" -> registrationLocation,
+          "registration-location-state" -> registrationLocationState,
         )
         .fields,
     )

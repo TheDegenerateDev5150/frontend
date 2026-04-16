@@ -71,10 +71,10 @@ class EmailFormServiceTest
   }
 
   def registrationLocation(body: JsObject): String =
-    (body \ "registrationLocation").get.as[String]
+    (body \ "registration-location").get.as[String]
 
   def registrationLocationState(body: JsObject): JsValue =
-    (body \ "registrationLocationState").get
+    (body \ "registration-location-state").get
 
   "EmailFormService.submit" when {
 
