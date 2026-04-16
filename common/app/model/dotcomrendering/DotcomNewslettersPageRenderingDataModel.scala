@@ -120,6 +120,8 @@ object DotcomNewslettersPageRenderingDataModel {
       response.regionFocus,
       response.illustrationCard,
       response.illustrationSquare,
+      response.exampleUrl,
+      response.category,
     )
   }
 }
